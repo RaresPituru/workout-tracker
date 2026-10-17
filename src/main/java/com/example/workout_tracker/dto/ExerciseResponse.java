@@ -1,0 +1,25 @@
+package com.example.workout_tracker.dto;
+
+public class ExerciseResponse {
+    private Long id;
+    private String name;
+    private String muscleGroup;
+
+    public ExerciseResponse(Long id, String name, String muscleGroup) {
+        this.id = id;
+        this.name = name;
+        this.muscleGroup = muscleGroup;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getMuscleGroup() {
+        return muscleGroup;
+    }
+}

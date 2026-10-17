@@ -1,5 +1,8 @@
 package com.example.workout_tracker.controller;
 
+import com.example.workout_tracker.dto.CreateUserRequest;
+import com.example.workout_tracker.dto.UpdateUserRequest;
+import com.example.workout_tracker.dto.UserResponse;
 import com.example.workout_tracker.entities.User;
 import com.example.workout_tracker.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +19,23 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAll(){
+    public List<UserResponse> getAll(){
         return userService.getAllUsers();
     }
     @GetMapping("/{id}")
-    public User getById(@PathVariable Long id){
+    public UserResponse getById(@PathVariable Long id){
         return userService.getUserById(id);
     }
     @PostMapping
-    public User create(@RequestBody User user){
-        return userService.createUser(user);
+    public UserResponse create(@RequestBody CreateUserRequest request) {
+        return userService.createUser(request);
     }
+
+    @PutMapping("/{id}")
+    public UserResponse update(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
+        return userService.updateUser(id, request);
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         userService.deleteUser(id);

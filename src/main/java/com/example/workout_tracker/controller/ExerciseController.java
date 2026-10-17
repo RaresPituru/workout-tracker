@@ -1,5 +1,7 @@
 package com.example.workout_tracker.controller;
 
+import com.example.workout_tracker.dto.CreateExerciseRequest;
+import com.example.workout_tracker.dto.ExerciseResponse;
 import com.example.workout_tracker.entities.Exercise;
 import com.example.workout_tracker.service.ExerciseService;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +19,17 @@ public class ExerciseController {
     }
 
     @GetMapping
-    public List<Exercise> getAll() {
+    public List<ExerciseResponse> getAll() {
         return exerciseService.getAllExercises();
     }
 
     @GetMapping("/{id}")
-    public Exercise getById(@PathVariable Long id) {
+    public ExerciseResponse getById(@PathVariable Long id) {
         return exerciseService.getExerciseById(id);
     }
 
     @PostMapping
-    public Exercise create(@RequestBody Exercise exercise) {
+    public ExerciseResponse create(@RequestBody CreateExerciseRequest exercise) {
         return exerciseService.createExercise(exercise);
     }
 
