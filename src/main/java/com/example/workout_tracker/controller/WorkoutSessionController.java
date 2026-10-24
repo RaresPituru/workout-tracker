@@ -1,5 +1,7 @@
 package com.example.workout_tracker.controller;
 
+import com.example.workout_tracker.dto.CreateWorkoutSessionRequest;
+import com.example.workout_tracker.dto.WorkoutSessionResponse;
 import com.example.workout_tracker.entities.WorkoutSession;
 import com.example.workout_tracker.service.WorkoutSessionService;
 import org.springframework.web.bind.annotation.*;
@@ -16,19 +18,19 @@ public class WorkoutSessionController {
     }
 
     @GetMapping
-    public List<WorkoutSession> getAll(){
+    public List<WorkoutSessionResponse> getAll(){
         return workoutSessionService.getAllWorkouts();
     }
     @GetMapping("/{id}")
-    public WorkoutSession getById(@PathVariable Long id){
+    public WorkoutSessionResponse getById(@PathVariable Long id){
         return workoutSessionService.getWorkoutById(id);
     }
     @PostMapping
-    public WorkoutSession create(@RequestParam Long userId,@RequestBody WorkoutSession session){
+    public WorkoutSessionResponse create(@RequestParam Long userId,@RequestBody CreateWorkoutSessionRequest session){
         return workoutSessionService.createWorkout(userId,session);
     }
     @PutMapping("/{id}")
-    public WorkoutSession update(@PathVariable Long id, @RequestBody WorkoutSession session) {
+    public WorkoutSessionResponse update(@PathVariable Long id, @RequestBody CreateWorkoutSessionRequest session) {
         return workoutSessionService.updateWorkout(id, session);
     }
     @DeleteMapping("/{id}")
