@@ -1,6 +1,5 @@
 package com.example.workout_tracker.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ public class User {
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE )
-    @JsonManagedReference
     private List<WorkoutSession> sessions = new ArrayList<>();
 
     public long getId() {

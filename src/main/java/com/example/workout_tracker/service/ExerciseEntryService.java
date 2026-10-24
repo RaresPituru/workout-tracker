@@ -1,9 +1,12 @@
 package com.example.workout_tracker.service;
 
+import com.example.workout_tracker.dto.CreateExerciseEntryRequest;
+import com.example.workout_tracker.dto.ExerciseEntryResponse;
 import com.example.workout_tracker.entities.Exercise;
 import com.example.workout_tracker.entities.ExerciseEntry;
 import com.example.workout_tracker.entities.WorkoutSession;
 import com.example.workout_tracker.exceptions.ResourceNotFoundException;
+import com.example.workout_tracker.mapper.ExerciseEntryMapper;
 import com.example.workout_tracker.repository.ExerciseEntryRepository;
 import com.example.workout_tracker.repository.ExerciseRepository;
 import com.example.workout_tracker.repository.WorkoutSessionRepository;
@@ -21,20 +24,26 @@ public class ExerciseEntryService {
         this.exerciseEntryRepository = exerciseEntryRepository;
     }
 
-    public ExerciseEntry createExerciseEntry(Long workoutSessionId,Long exerciseId,ExerciseEntry exerciseEntry){
+    public ExerciseEntryResponse createExerciseEntry(Long workoutSessionId, Long exerciseId, CreateExerciseEntryRequest request){
         WorkoutSession workoutSession = workoutSessionRepository.findById(workoutSessionId)
-                .orElseThrow(() -> new RuntimeException("Workout not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Workout not found"));
         Exercise exercise = exerciseRepository.findById(exerciseId)
-                .orElseThrow(() -> new RuntimeException("Exercise not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise not found"));
 
-        exerciseEntry.setExercise(exercise);
-        exerciseEntry.setWorkoutSession(workoutSession);
+        ExerciseEntry entry;
+        entry = ExerciseEntryMapper.toEntity(request);
+        entry.setExercise(exercise);
+        entry.setWorkoutSession(workoutSession);
 
-        return exerciseEntryRepository.save(exerciseEntry);
+        ExerciseEntry saved = exerciseEntryRepository.save(entry);
+        return ExerciseEntryMapper.toResponse(saved);
     }
 
-    public ExerciseEntry getExerciseEntryById(Long id){
-        return exerciseEntryRepository.findById(id).orElseThrow(() -> new RuntimeException("ExerciseEntry not found"));
+    public ExerciseEntryResponse getExerciseEntryById(Long id){
+        ExerciseEntry exerciseEntry = exerciseEntryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("ExerciseEntry not found"));
+
+        return ExerciseEntryMapper.toResponse(exerciseEntry);
     }
 
     public void deleteExerciseEntry(Long id){
@@ -44,16 +53,16 @@ public class ExerciseEntryService {
         exerciseEntryRepository.deleteById(id);
     }
 
-    public ExerciseEntry updateExerciseEntry(Long id, ExerciseEntry newData) {
-       ExerciseEntry exerciseEntry = exerciseEntryRepository.findById(id)
-               .orElseThrow(() -> new RuntimeException("entry not found"));
+    public ExerciseEntryResponse updateExerciseEntry(Long id, CreateExerciseEntryRequest request) {
+        ExerciseEntry exerciseEntry = exerciseEntryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Entry not found"));
 
-       exerciseEntry.setWeight(newData.getWeight());
-       exerciseEntry.setReps(newData.getReps());
-       exerciseEntry.setSets(newData.getSets());
+        exerciseEntry.setWeight(request.getWeight());
+        exerciseEntry.setReps(request.getReps());
+        exerciseEntry.setSets(request.getSets());
 
-       return exerciseEntryRepository.save(exerciseEntry);
-
+        ExerciseEntry saved = exerciseEntryRepository.save(exerciseEntry);
+        return ExerciseEntryMapper.toResponse(saved);
     }
 
 }

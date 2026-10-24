@@ -1,8 +1,5 @@
 package com.example.workout_tracker.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -20,11 +17,11 @@ public class WorkoutSession {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+
     private User user;
 
     @OneToMany(mappedBy = "workoutSession", cascade = CascadeType.REMOVE)
-    @JsonManagedReference
+
     private List<ExerciseEntry> exerciseEntries = new ArrayList<>();
 
 

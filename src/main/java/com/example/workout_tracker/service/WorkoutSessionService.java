@@ -50,7 +50,7 @@ public class WorkoutSessionService {
     }
     public WorkoutSessionResponse getWorkoutById(Long id){
         WorkoutSession workoutSession = workoutSessionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Workout not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Workout not found"));
 
         return WorkoutSessionMapper.toResponse(workoutSession);
     }

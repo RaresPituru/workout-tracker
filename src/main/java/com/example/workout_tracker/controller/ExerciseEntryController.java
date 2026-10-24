@@ -1,5 +1,8 @@
 package com.example.workout_tracker.controller;
 
+import com.example.workout_tracker.dto.CreateExerciseEntryRequest;
+import com.example.workout_tracker.dto.CreateExerciseRequest;
+import com.example.workout_tracker.dto.ExerciseEntryResponse;
 import com.example.workout_tracker.entities.ExerciseEntry;
 import com.example.workout_tracker.service.ExerciseEntryService;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +17,12 @@ public class ExerciseEntryController {
     }
 
     @GetMapping("/{id}")
-    public ExerciseEntry getById(@PathVariable Long id){
+    public ExerciseEntryResponse getById(@PathVariable Long id){
         return exerciseEntryService.getExerciseEntryById(id);
     }
     @PostMapping
-    public ExerciseEntry create(@RequestParam Long workoutId,@RequestParam Long exerciseId
-            ,@RequestBody ExerciseEntry exerciseEntry){
+    public ExerciseEntryResponse create(@RequestParam Long workoutId,@RequestParam Long exerciseId
+            ,@RequestBody CreateExerciseEntryRequest exerciseEntry){
         return exerciseEntryService.createExerciseEntry(workoutId,exerciseId,exerciseEntry);
     }
     @DeleteMapping("/{id}")
@@ -28,7 +31,7 @@ public class ExerciseEntryController {
     }
 
     @PutMapping("/{id}")
-    public ExerciseEntry update(@PathVariable Long id, @RequestBody ExerciseEntry exerciseEntry) {
+    public ExerciseEntryResponse update(@PathVariable Long id, @RequestBody CreateExerciseEntryRequest exerciseEntry) {
         return exerciseEntryService.updateExerciseEntry(id, exerciseEntry);
     }
 }
